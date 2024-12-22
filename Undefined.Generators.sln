@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Undefined.Generators", "Undefined.Generators\Undefined.Generators\Undefined.Generators.csproj", "{BF279C26-1152-4B44-AE00-5480A521A8C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Undefined.Generators", "Undefined.Generators\Undefined.Generators.csproj", "{BF279C26-1152-4B44-AE00-5480A521A8C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
