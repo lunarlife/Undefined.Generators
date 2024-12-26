@@ -15,13 +15,3 @@ public abstract class SyntaxProviderTransformInstruction<T> : SyntaxProviderTran
 
     public abstract bool Transform(UndefinedTransformContext<T> context);
 }
-
-public struct Transform<T> where T : CSharpSyntaxNode
-{
-    public T Node { get; }
-
-    public Transform(T node)
-    {
-        Node = node;
-    }
-}
