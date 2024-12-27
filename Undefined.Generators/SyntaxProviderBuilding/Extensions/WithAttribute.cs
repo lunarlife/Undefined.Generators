@@ -13,8 +13,8 @@ public static partial class SyntaxProviderBuilderExtensions
 
 public class WithAttributeTransformInstruction : SyntaxProviderTransformInstruction
 {
-    private readonly string _attributeNamespace;
     private readonly string _attributeName;
+    private readonly string _attributeNamespace;
 
     public WithAttributeTransformInstruction(string attributeNamespace, string attributeName)
     {

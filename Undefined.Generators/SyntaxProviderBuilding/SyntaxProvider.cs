@@ -7,23 +7,28 @@ namespace Undefined.Generators.SyntaxProviderBuilding;
 
 public class SyntaxProvider : SyntaxProvider<CSharpSyntaxNode>, ISyntaxProvider
 {
-    public SyntaxProvider(ICollection<ICSharpSyntaxProviderInstruction> instructions,
-        IncrementalGeneratorInitializationContext context) : base(instructions, context)
+    public SyntaxProvider(ICollection<SyntaxProviderPredicateInstruction> predicates,
+        ICollection<SyntaxProviderTransformInstruction> transforms,
+        IncrementalGeneratorInitializationContext context) : base(predicates, transforms, context)
     {
     }
 }
 
 public class SyntaxProvider<T> : ISyntaxProvider<T> where T : CSharpSyntaxNode
 {
-    private readonly ICSharpSyntaxProviderInstruction[] _instructions;
+    private readonly SyntaxProviderPredicateInstruction[] _predicates;
+    private readonly SyntaxProviderTransformInstruction[] _transforms;
 
     public IncrementalValuesProvider<T> Values { get; }
 
-    public SyntaxProvider(ICollection<ICSharpSyntaxProviderInstruction> instructions,
+    public SyntaxProvider(ICollection<SyntaxProviderPredicateInstruction> predicates,
+        ICollection<SyntaxProviderTransformInstruction> transforms,
         IncrementalGeneratorInitializationContext context)
     {
-        _instructions = new ICSharpSyntaxProviderInstruction[instructions.Count];
-        instructions.CopyTo(_instructions, 0);
+        _predicates = new SyntaxProviderPredicateInstruction[predicates.Count];
+        predicates.CopyTo(_predicates, 0);
+        _transforms = new SyntaxProviderTransformInstruction[transforms.Count];
+        transforms.CopyTo(_transforms, 0);
         Values = context.SyntaxProvider.CreateSyntaxProvider(SyntaxProviderPredicate, SyntaxProviderTransform)
             .Where(t => t is not null)!;
     }
@@ -31,9 +36,8 @@ public class SyntaxProvider<T> : ISyntaxProvider<T> where T : CSharpSyntaxNode
 
     private T? SyntaxProviderTransform(GeneratorSyntaxContext context, CancellationToken ct)
     {
-        foreach (var instruction in _instructions)
+        foreach (var transformInstruction in _transforms)
         {
-            if (instruction is not SyntaxProviderTransformInstruction transformInstruction) continue;
             if (!transformInstruction.Transform(
                     new UndefinedTransformContext<CSharpSyntaxNode>((CSharpSyntaxNode)context.Node,
                         context.SemanticModel))) return null;
@@ -45,10 +49,9 @@ public class SyntaxProvider<T> : ISyntaxProvider<T> where T : CSharpSyntaxNode
     private bool SyntaxProviderPredicate(SyntaxNode node, CancellationToken ct)
     {
         if (node is not T syntaxNode) return false;
-        foreach (var instruction in _instructions)
+        foreach (var predicateInstruction in _predicates)
         {
-            if (instruction is not SyntaxProviderPredicateInstruction transformInstruction) continue;
-            if (!transformInstruction.Predicate(
+            if (!predicateInstruction.Predicate(
                     new UndefinedPredicateContext<CSharpSyntaxNode>(syntaxNode)))
                 return false;
         }

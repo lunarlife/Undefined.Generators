@@ -4,14 +4,14 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
-        
+
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
         <IsRoslynComponent>true</IsRoslynComponent>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <Title>Undefined Generators</Title>
         <Description>.NET Roslyn Code Generation Extension</Description>
         <Copyright>Copyright © LunarLife 2024</Copyright>
